@@ -42,7 +42,6 @@ func (e *encrypter) Encrypt(text string) (string, error) {
 	if _, err = io.ReadFull(rand.Reader, nonce); err != nil {
 		return "", err
 	}
-	// Encode to base64 to make cipher-text look prettier than literal binary data.
 	cipherText := base64.StdEncoding.EncodeToString(gcm.Seal(nonce, nonce, []byte(text), nil))
 	return string(cipherText), nil
 }
@@ -63,25 +62,25 @@ func (e *encrypter) Decrypt(cipherText string) (string, error) {
 	}
 	cipherText = string(decoded)
 	nonce, cipherText := cipherText[:nonceSize], cipherText[nonceSize:]
-	plaintext, err := gcm.Open(nil, []byte(nonce), []byte(cipherText), nil)
+	plainText, err := gcm.Open(nil, []byte(nonce), []byte(cipherText), nil)
 	if err != nil {
 		return "", err
 	}
-	return string(plaintext), nil
+	return string(plainText), nil
 }
 
-func Encrypt(key, value string) (string, error) {
+func Encrypt(key, plainText string) (string, error) {
 	enc, err := NewEncrypter(key)
 	if err != nil {
 		return "", err
 	}
-	return enc.Encrypt(value)
+	return enc.Encrypt(plainText)
 }
 
-func Decrypt(key, value string) (string, error) {
+func Decrypt(key, cipherText string) (string, error) {
 	enc, err := NewEncrypter(key)
 	if err != nil {
 		return "", err
 	}
-	return enc.Decrypt(value)
+	return enc.Decrypt(cipherText)
 }

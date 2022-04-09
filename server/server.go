@@ -13,8 +13,9 @@ func New(c config.Config) *http.Server {
 	h := NewHandler(s)
 	r := mux.NewRouter()
 
-	r.HandleFunc("/new", h.EncryptText).Methods("POST")
-	r.HandleFunc("/", h.DecryptText).Methods("POST")
+	r.HandleFunc("/encrypt", h.EncryptText).Methods("POST")
+	r.HandleFunc("/decrypt", h.DecryptText).Methods("POST")
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./html/")))
 
 	return &http.Server{
 		Addr:    c.Addr,

@@ -2,7 +2,6 @@ package server
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -23,13 +22,14 @@ func (h *handler) EncryptText(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+
 	cipherText, err := h.store.Add(req.Key, req.Data)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-	fmt.Fprintf(w, "%s\n", cipherText)
+	resp := encryptResponse{CipherText: cipherText}
+	json.NewEncoder(w).Encode(resp)
 }
 
 func (h *handler) DecryptText(w http.ResponseWriter, r *http.Request) {
@@ -39,12 +39,14 @@ func (h *handler) DecryptText(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+
 	plainText, err := h.store.Remove(req.Key, req.Data)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Fprintf(w, "%s\n", plainText)
+	resp := decryptResponse{PlainText: plainText}
+	json.NewEncoder(w).Encode(resp)
 }
 
 type encryptRequest struct {
@@ -55,4 +57,12 @@ type encryptRequest struct {
 type decryptRequest struct {
 	Data string `json:"data"`
 	Key  string `json:"key"`
+}
+
+type encryptResponse struct {
+	CipherText string `json:"cipherText"`
+}
+
+type decryptResponse struct {
+	PlainText string `json:"plainText"`
 }

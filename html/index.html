@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+</head>
+<body>
+    <h1>Share</h1>
+    <div id="state">
+        <input type="radio" id="encrypt" name="state" value="encrypt" checked>
+        <label for="encrypt">Encrypt</label>
+        <input type="radio" id="decrypt" name="state" value="decrypt">
+        <label for="decrypt">Decrypt</label>
+    </div>
+
+    <form>
+        <div>
+            <label>Data</label>
+            <input type="text" name="data" required>
+        </div>
+        <div>
+            <label>Key</label>
+            <input type="text" name="key">
+        </div>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+
+    <style>
+        body {
+            font-family: cursive;
+            text-align: center;
+        }
+        #state {
+            margin-bottom: 20px;
+        }
+        input[type=text] {
+            float: right;
+            margin-left: 10px;
+        }
+        form {
+            display: inline-block;
+        }
+        input {
+            border: 1px solid rgba(30, 20, 30, 0.1);
+            border-radius: 5px;
+        }
+    </style>
+
+    <script>
+        const form = document.querySelector("form");
+        form.addEventListener("submit", handleSubmit);
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const state = document.querySelector("input[name=state]:checked").value;
+            const url = state === "encrypt" ? "/encrypt" : "/decrypt";
+
+            const formData = new FormData(event.target);
+            const obj = Object.fromEntries(formData.entries());
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(obj),
+            });
+            try {
+                const json = await response.json();
+                const content = state === "encrypt" ? "cipherText" : "plainText";
+                renderResponse(json[content]);
+            } catch (err) {
+                console.error(err);
+            }
+            form.reset();
+        }
+
+        function renderResponse(str) {
+            let p = document.querySelector("#response");
+            if (p) {
+                p.remove();
+            }
+            p = document.createElement("p");
+            p.setAttribute("id", "response");
+            p.textContent = str;
+
+            const body = document.querySelector("body");
+            body.append(p);
+        }
+    </script>
+</body>
+</html>
