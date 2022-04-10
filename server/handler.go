@@ -23,13 +23,12 @@ func (h *handler) EncryptText(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cipherText, err := h.store.Add(req.Key, req.Data)
+	_, err = h.store.Add(req.Key, req.Data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	resp := encryptResponse{CipherText: cipherText}
-	json.NewEncoder(w).Encode(resp)
+	w.WriteHeader(http.StatusCreated)
 }
 
 func (h *handler) DecryptText(w http.ResponseWriter, r *http.Request) {
@@ -40,7 +39,7 @@ func (h *handler) DecryptText(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	plainText, err := h.store.Remove(req.Key, req.Data)
+	plainText, err := h.store.Remove(req.Key)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -55,12 +54,7 @@ type encryptRequest struct {
 }
 
 type decryptRequest struct {
-	Data string `json:"data"`
-	Key  string `json:"key"`
-}
-
-type encryptResponse struct {
-	CipherText string `json:"cipherText"`
+	Key string `json:"key"`
 }
 
 type decryptResponse struct {

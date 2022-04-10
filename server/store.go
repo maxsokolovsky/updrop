@@ -8,7 +8,7 @@ import (
 
 type Store interface {
 	Add(string, string) (string, error)
-	Remove(string, string) (string, error)
+	Remove(string) (string, error)
 	Size() int
 }
 
@@ -50,7 +50,7 @@ func (s *singleValueStore) Add(key, value string) (string, error) {
 	return s.value, nil
 }
 
-func (s *singleValueStore) Remove(key, value string) (string, error) {
+func (s *singleValueStore) Remove(key string) (string, error) {
 	if s.Size() == 0 {
 		return "", errors.New("store is empty")
 	}
@@ -61,7 +61,7 @@ func (s *singleValueStore) Remove(key, value string) (string, error) {
 	if s.serverWideKey {
 		plainText, err = s.encrypter.Decrypt(s.value)
 	} else {
-		plainText, err = encryption.Decrypt(key, value)
+		plainText, err = encryption.Decrypt(key, s.value)
 	}
 
 	if err != nil {

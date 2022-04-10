@@ -20,7 +20,7 @@ type encrypter struct {
 	key string
 }
 
-func NewEncrypter(key string) (*encrypter, error) {
+func NewEncrypter(key string) (Encrypter, error) {
 	switch len(key) {
 	case 8, 16, 24:
 	default:
