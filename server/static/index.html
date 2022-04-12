@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="style.css" />
+        <title>Updrop</title>
+    </head>
+    <body>
+        <h1>Share</h1>
+        <div id="state">
+            <input
+                type="radio"
+                id="encrypt"
+                name="state"
+                value="encrypt"
+                checked
+            />
+            <label for="encrypt">Encrypt</label>
+            <input type="radio" id="decrypt" name="state" value="decrypt" />
+            <label for="decrypt">Decrypt</label>
+        </div>
+
+        <form>
+            <div id="data-input">
+                <label>Data</label>
+                <input type="text" name="data" />
+            </div>
+            <div id="key-input">
+                <label>Key</label>
+                <input type="text" name="key" required />
+            </div>
+            <div>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+
+        <script src="main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+body {
+    font-family: cursive;
+    text-align: center;
+}
+
+#state {
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    margin-left: 10px;
+}
+
+form {
+    display: inline-block;
+}
+
+input {
+    border: 1px solid rgba(30, 20, 30, 0.1);
+    border-radius: 7px;
+}

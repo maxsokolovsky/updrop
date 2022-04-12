@@ -16,6 +16,11 @@ func NewHandler(s Store) *handler {
 }
 
 func (h *handler) EncryptText(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+
 	var req encryptRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
@@ -32,6 +37,11 @@ func (h *handler) EncryptText(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *handler) DecryptText(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+
 	var req decryptRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
