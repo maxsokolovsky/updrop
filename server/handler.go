@@ -55,6 +55,7 @@ func (h *handler) DecryptText(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	resp := decryptResponse{PlainText: plainText}
+	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(resp)
 }
 
