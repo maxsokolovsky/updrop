@@ -12,7 +12,7 @@ import (
 var staticFiles embed.FS
 
 func New(c config.Config) *http.Server {
-	s := NewSingleValueStore(c.Key, c.ServerWideKey)
+	s := NewSingleValueStore()
 	h := NewHandler(s)
 
 	var staticFS = fs.FS(staticFiles)

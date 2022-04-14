@@ -13,36 +13,18 @@ type Store interface {
 }
 
 type singleValueStore struct {
-	value         string
-	encrypter     encryption.Encrypter
-	serverWideKey bool
+	value string
 }
 
-func NewSingleValueStore(key string, serverWideKey bool) *singleValueStore {
-	var encrypter encryption.Encrypter
-	var err error
-
-	if serverWideKey {
-		encrypter, err = encryption.NewEncrypter(key)
-		if err != nil {
-			panic(err)
-		}
-	}
-	return &singleValueStore{
-		encrypter:     encrypter,
-		serverWideKey: serverWideKey,
-	}
+func NewSingleValueStore() *singleValueStore {
+	return &singleValueStore{}
 }
 
 func (s *singleValueStore) Add(key, value string) (string, error) {
 	var cipherText string
 	var err error
 
-	if s.serverWideKey {
-		cipherText, err = s.encrypter.Encrypt(value)
-	} else {
-		cipherText, err = encryption.Encrypt(key, value)
-	}
+	cipherText, err = encryption.Encrypt(key, value)
 	if err != nil {
 		return "", err
 	}
@@ -58,12 +40,7 @@ func (s *singleValueStore) Remove(key string) (string, error) {
 	var plainText string
 	var err error
 
-	if s.serverWideKey {
-		plainText, err = s.encrypter.Decrypt(s.value)
-	} else {
-		plainText, err = encryption.Decrypt(key, s.value)
-	}
-
+	plainText, err = encryption.Decrypt(key, s.value)
 	if err != nil {
 		return "", err
 	}
