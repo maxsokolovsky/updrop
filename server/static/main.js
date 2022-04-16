@@ -7,13 +7,13 @@ handleStateChange();
 
 async function handleSubmit(e) {
     e.preventDefault();
-    const state = getState();
-    const url = state === "encrypt" ? "/encrypt" : "/decrypt";
 
     const formData = new FormData(e.target);
     const obj = Object.fromEntries(formData.entries());
     form.reset();
 
+    const state = getState();
+    const url = state === "encrypt" ? "/encrypt" : "/decrypt";
     const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -35,7 +35,7 @@ async function handleSubmit(e) {
 
 function renderResponse(str) {
     clearResponseIfPresent();
-    p = document.createElement("p");
+    const p = document.createElement("p");
     p.setAttribute("id", "response");
     p.textContent = str;
 
