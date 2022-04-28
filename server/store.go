@@ -16,7 +16,7 @@ type singleValueStore struct {
 	value string
 }
 
-func NewSingleValueStore() *singleValueStore {
+func NewSingleValueStore() Store {
 	return &singleValueStore{}
 }
 

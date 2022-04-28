@@ -1,5 +1,6 @@
 # Updrop
-This little web server allows you to copy and paste a piece of data across the Internet.
+This little web server allows you to copy and paste a piece of data
+across the Internet or hosts on your local network.
 It is useful when you are working with multiple computers and don't want to email things
 to yourself or use cloud storage options for a quick share. You need to simply copy an arbitrary string from
 one computer to another.

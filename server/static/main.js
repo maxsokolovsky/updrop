@@ -35,13 +35,13 @@ async function handleSubmit(e) {
 
 function renderResponse(str) {
     clearResponseIfPresent();
-    const p = document.createElement("p");
-    p.setAttribute("id", "response");
-    p.textContent = str;
+    const resp = document.createElement("summary");
+    resp.setAttribute("id", "response");
+    resp.textContent = str;
 
     const body = document.querySelector("body");
-    body.append(p);
-    p.addEventListener("click", function (e) {
+    body.append(resp);
+    resp.addEventListener("click", function (e) {
         copyToClipboard(e.target.textContent);
     });
 }
