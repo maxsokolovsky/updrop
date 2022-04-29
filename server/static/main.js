@@ -51,9 +51,8 @@ function getState() {
 }
 
 function handleStateChange() {
+    const dataInput = document.querySelector("#data-input");
     const state = getState();
-    dataInput = document.querySelector("#data-input");
-    const label = dataInput.querySelector("label");
     if (state === "decrypt") {
         dataInput.style.visibility = "hidden";
     } else {
