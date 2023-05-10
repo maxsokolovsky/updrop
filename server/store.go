@@ -3,7 +3,7 @@ package server
 import (
 	"errors"
 
-	"github.com/maxsokolovsky/updrop/encryption"
+	"github.com/maxsokolovsky/updrop/encrypter"
 )
 
 type Store interface {
@@ -24,7 +24,7 @@ func (s *singleValueStore) Add(key, value string) (string, error) {
 	var cipherText string
 	var err error
 
-	cipherText, err = encryption.Encrypt(key, value)
+	cipherText, err = encrypter.Encrypt(key, value)
 	if err != nil {
 		return "", err
 	}
@@ -40,7 +40,7 @@ func (s *singleValueStore) Remove(key string) (string, error) {
 	var plainText string
 	var err error
 
-	plainText, err = encryption.Decrypt(key, s.value)
+	plainText, err = encrypter.Decrypt(key, s.value)
 	if err != nil {
 		return "", err
 	}

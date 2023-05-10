@@ -1,16 +1,16 @@
-package encryption_test
+package encrypter_test
 
 import (
 	"testing"
 
-	"github.com/maxsokolovsky/updrop/encryption"
+	"github.com/maxsokolovsky/updrop/encrypter"
 )
 
 func TestEncryptDecrypt(t *testing.T) {
 	t.Parallel()
 
 	const key = "helloworld1234ai"
-	encrypter, err := encryption.NewEncrypter(key)
+	encrypter, err := encrypter.New(key)
 	if err != nil {
 		t.Fatal(err.Error())
 	}

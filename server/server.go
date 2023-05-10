@@ -12,14 +12,14 @@ import (
 var staticFiles embed.FS
 
 func New(c config.Config) *http.Server {
-	s := NewSingleValueStore()
-	h := NewHandler(s)
-
-	var staticFS = fs.FS(staticFiles)
+	staticFS := fs.FS(staticFiles)
 	htmlContent, err := fs.Sub(staticFS, "static")
 	if err != nil {
 		panic(err)
 	}
+
+	s := NewSingleValueStore()
+	h := NewHandler(s)
 
 	mux := http.NewServeMux()
 	mux.Handle("/", http.FileServer(http.FS(htmlContent)))

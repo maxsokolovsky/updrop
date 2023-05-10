@@ -1,4 +1,4 @@
-package encryption
+package encrypter
 
 import (
 	"crypto/aes"
@@ -20,7 +20,7 @@ type encrypter struct {
 	key string
 }
 
-func NewEncrypter(key string) (Encrypter, error) {
+func New(key string) (Encrypter, error) {
 	switch len(key) {
 	case 8, 16, 24:
 	default:
@@ -70,7 +70,7 @@ func (e *encrypter) Decrypt(cipherText string) (string, error) {
 }
 
 func Encrypt(key, plainText string) (string, error) {
-	enc, err := NewEncrypter(key)
+	enc, err := New(key)
 	if err != nil {
 		return "", err
 	}
@@ -78,7 +78,7 @@ func Encrypt(key, plainText string) (string, error) {
 }
 
 func Decrypt(key, cipherText string) (string, error) {
-	enc, err := NewEncrypter(key)
+	enc, err := New(key)
 	if err != nil {
 		return "", err
 	}
