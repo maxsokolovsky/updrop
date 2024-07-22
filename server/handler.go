@@ -5,17 +5,17 @@ import (
 	"net/http"
 )
 
-type handler struct {
+type Handler struct {
 	store Store
 }
 
-func NewHandler(s Store) *handler {
-	return &handler{
+func NewHandler(s Store) *Handler {
+	return &Handler{
 		store: s,
 	}
 }
 
-func (h *handler) EncryptText(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) EncryptText(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
@@ -36,7 +36,7 @@ func (h *handler) EncryptText(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-func (h *handler) DecryptText(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) DecryptText(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
@@ -56,7 +56,10 @@ func (h *handler) DecryptText(w http.ResponseWriter, r *http.Request) {
 	}
 	resp := decryptResponse{PlainText: plainText}
 	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp)
+	if err := json.NewEncoder(w).Encode(resp); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 type encryptRequest struct {
