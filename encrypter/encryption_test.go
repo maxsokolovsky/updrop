@@ -8,20 +8,19 @@ import (
 
 func TestEncryptDecrypt(t *testing.T) {
 	t.Parallel()
-
 	const key = "helloworld1234ai"
-	encrypter, err := encrypter.New(key)
+	enc, err := encrypter.New(key)
 	if err != nil {
 		t.Fatal(err.Error())
 	}
 
 	const plainText = "hello there"
-	cipherText, err := encrypter.Encrypt(plainText)
+	cipherText, err := enc.Encrypt(plainText)
 	if err != nil {
 		t.Fatalf("failed to encrypt: %v", err)
 	}
 
-	decrypted, err := encrypter.Decrypt(cipherText)
+	decrypted, err := enc.Decrypt(cipherText)
 	if err != nil {
 		t.Fatalf("failed to decrypt: %v", err)
 	}
