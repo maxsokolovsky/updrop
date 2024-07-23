@@ -10,14 +10,14 @@ import (
 )
 
 func main() {
-	addr := flag.Int("addr", 8000, "Server addr port")
+	port := flag.Int("port", 8000, "server port")
 	flag.Parse()
 
 	c := config.Config{
-		Addr: ":" + strconv.Itoa(*addr),
+		Addr: ":" + strconv.Itoa(*port),
 	}
 
 	s := server.New(c)
-	log.Printf("Listening on port %s\n", c.Addr)
+	log.Printf("Listening on %s\n", c.Addr)
 	log.Fatal(s.ListenAndServe())
 }
