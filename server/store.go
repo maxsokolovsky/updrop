@@ -6,6 +6,8 @@ import (
 	"github.com/maxsokolovsky/updrop/encrypter"
 )
 
+var ErrEmptyStore = errors.New("store is empty")
+
 type Store interface {
 	Add(string, string) (string, error)
 	Remove(string) (string, error)
@@ -34,7 +36,7 @@ func (s *singleValueStore) Add(key, value string) (string, error) {
 
 func (s *singleValueStore) Remove(key string) (string, error) {
 	if s.Size() == 0 {
-		return "", errors.New("store is empty")
+		return "", ErrEmptyStore
 	}
 
 	var plainText string

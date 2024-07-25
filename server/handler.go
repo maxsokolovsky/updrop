@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 )
 
@@ -51,7 +52,11 @@ func (h *Handler) DecryptText(w http.ResponseWriter, r *http.Request) {
 
 	plainText, err := h.store.Remove(req.Key)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		if errors.Is(err, ErrEmptyStore) {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+		} else {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
 		return
 	}
 	resp := decryptResponse{PlainText: plainText}
