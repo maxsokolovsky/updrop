@@ -24,11 +24,13 @@ $ updrop
 Listening on port :8000
 ```
 
-You can configure the port:
+Specify the paths to a TLS certificate and private key:
 
 ```
-$ updrop -port 6789
+$ updrop -cert cert.pem -key key.pem
 ```
+
+Generate a self-signed certificate with private key using `scripts/generate-cert.sh`.
 
 For help:
 

@@ -1,9 +1,11 @@
 package server
 
 import (
+	"crypto/tls"
 	"embed"
 	"io/fs"
 	"net/http"
+	"time"
 
 	"github.com/maxsokolovsky/updrop/config"
 )
@@ -26,8 +28,15 @@ func New(c config.Config) *http.Server {
 	mux.HandleFunc("/encrypt", h.EncryptText)
 	mux.HandleFunc("/decrypt", h.DecryptText)
 
+	tlsConfig := &tls.Config{
+		MinVersion: tls.VersionTLS13,
+	}
 	return &http.Server{
-		Addr:    c.Addr,
-		Handler: mux,
+		Addr:           c.Addr,
+		Handler:        mux,
+		TLSConfig:      tlsConfig,
+		ReadTimeout:    5 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20, // 1MB
 	}
 }
