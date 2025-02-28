@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
             rel="stylesheet"
-            href="https://cdn.simplecss.org/simple.min.css"
+            href="simple.css"
         />
         <title>Updrop</title>
     </head>
@@ -31,17 +31,17 @@
         </div>
 
         <form>
-            <p id="data-input">
-                <label>Data</label><br />
-                <input type="text" name="data" />
-            </p>
-            <p id="key-input">
-                <label>Key</label><br />
-                <input type="password" name="key" required />
-            </p>
-            <p>
+            <div>
+                <label for="data-input">Data</label><br />
+                <input type="text" id="data-input" name="data" required />
+            </div>
+            <div>
+                <label for="key-input">Key</label><br />
+                <input type="password" id="key-input" name="key" required />
+            </div>
+            <div>
                 <button type="submit">Submit</button>
-            </p>
+            </div>
         </form>
 
         <script src="main.js"></script>
